@@ -15,10 +15,20 @@
   font-family: Arial, sans-serif;
 }
 
-/* OUTER SPACE BACKGROUND */
+/* PAGE BACKGROUND FIX */
+html {
+  min-height: 100%;
+  background-color: #03040b;
+}
+
 body {
+  min-height: 100vh;
+  margin: 0;
+  border: none;
+  outline: none;
   color: white;
   overflow-x: hidden;
+  background-color: #03040b;
   background:
     radial-gradient(ellipse at 50% 100%,
       rgba(35,40,85,0.35), transparent 55%),
@@ -30,17 +40,20 @@ body {
       #02030b 0%,
       #080b1a 45%,
       #03040b 100%);
-  background-attachment: fixed;
 }
 
 /* STAR CANVAS */
 #particles {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  display: block;
   z-index: 0;
   pointer-events: none;
+  border: none;
+  outline: none;
 }
 
 /* NEBULA GLOW */
@@ -435,7 +448,6 @@ footer {
 
     <a href="index.html">Home</a>
 
-    <!-- HORIZON DROPDOWN -->
     <div class="dropdown">
       <a href="#" onclick="toggleDropdown(event, this)">
         Horizon ▾
@@ -446,7 +458,6 @@ footer {
       </div>
     </div>
 
-    <!-- REQUIEM DROPDOWN -->
     <div class="dropdown">
       <a href="#" onclick="toggleDropdown(event, this)">
         Requiem ▾
@@ -457,7 +468,6 @@ footer {
       </div>
     </div>
 
-    <!-- DENIAL DROPDOWN -->
     <div class="dropdown">
       <a href="#" onclick="toggleDropdown(event, this)">
         Denial ▾
@@ -553,8 +563,8 @@ let stars = [];
 function resizeCanvas() {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-  canvas.width = window.innerWidth * dpr;
-  canvas.height = window.innerHeight * dpr;
+  canvas.width = Math.round(window.innerWidth * dpr);
+  canvas.height = Math.round(window.innerHeight * dpr);
 
   canvas.style.width = window.innerWidth + "px";
   canvas.style.height = window.innerHeight + "px";
@@ -605,12 +615,10 @@ window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 animateStars();
 
-
 /* MOBILE MENU */
 function toggleMenu() {
   document.getElementById("navMenu").classList.toggle("active");
 }
-
 
 /* DROPDOWN MENU */
 function toggleDropdown(event, element) {
@@ -627,7 +635,6 @@ function toggleDropdown(event, element) {
   dropdown.classList.toggle("active");
 }
 
-
 /* TEAM MODALS */
 function openModal(id) {
   document.getElementById(id).style.display = "flex";
@@ -638,7 +645,6 @@ function closeModal() {
     m.style.display = "none";
   });
 }
-
 
 /* CLOSE MODAL WHEN CLICKING OUTSIDE */
 document.querySelectorAll(".modal").forEach(modal => {
