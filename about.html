@@ -1,0 +1,655 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lunar Esports</title>
+<link rel="icon" type="image/png" href="orglogo.png">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* OUTER SPACE BACKGROUND */
+body {
+  color: white;
+  overflow-x: hidden;
+  background:
+    radial-gradient(ellipse at 50% 100%,
+      rgba(35,40,85,0.35), transparent 55%),
+    radial-gradient(ellipse at 15% 25%,
+      rgba(55,65,120,0.22), transparent 45%),
+    radial-gradient(ellipse at 85% 35%,
+      rgba(65,45,110,0.18), transparent 45%),
+    linear-gradient(180deg,
+      #02030b 0%,
+      #080b1a 45%,
+      #03040b 100%);
+  background-attachment: fixed;
+}
+
+/* STAR CANVAS */
+#particles {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* NEBULA GLOW */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 30% 40%,
+      rgba(75,95,170,0.12), transparent 40%),
+    radial-gradient(ellipse at 75% 65%,
+      rgba(115,75,160,0.10), transparent 45%),
+    radial-gradient(ellipse at 50% 10%,
+      rgba(120,145,200,0.08), transparent 45%);
+  filter: blur(35px);
+  z-index: 0;
+}
+
+/* KEEP WEBSITE ABOVE BACKGROUND */
+.navbar,
+.hero,
+.section,
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(14px);
+  background: rgba(5,7,17,0.85);
+  border-bottom: 1px solid rgba(210,215,225,0.25);
+}
+
+.navbar h2 {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  background: linear-gradient(90deg,#ffffff,#9299a5,#ffffff);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 4s linear infinite;
+}
+
+@keyframes shine {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+/* NAVIGATION */
+.menu-toggle {
+  font-size: 26px;
+  cursor: pointer;
+  color: #d5d9e0;
+  display: none;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.nav-links a {
+  color: #c5cad2;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: white;
+  text-shadow: 0 0 10px #ffffff;
+}
+
+/* DROPDOWN MENUS */
+.dropdown {
+  position: relative;
+}
+
+.dropdown > a {
+  display: block;
+  padding: 5px 0;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 180px;
+  background: rgba(7,9,20,0.98);
+  border: 1px solid rgba(210,215,225,0.3);
+  border-radius: 10px;
+  padding: 8px;
+  z-index: 1001;
+  box-shadow: 0 0 20px rgba(120,140,220,0.2);
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 11px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.dropdown-content a:hover {
+  background: rgba(210,215,225,0.12);
+}
+
+/* DESKTOP HOVER */
+@media (min-width: 769px) {
+  .dropdown:hover .dropdown-content,
+  .dropdown:focus-within .dropdown-content {
+    display: block;
+  }
+}
+
+/* MOBILE MENU */
+@media(max-width:768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 10px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    width: 220px;
+    max-height: 80vh;
+    overflow-y: auto;
+    background: rgba(7,9,20,0.98);
+    border: 1px solid rgba(210,215,225,0.3);
+    border-radius: 12px;
+    padding: 12px;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-links > a {
+    padding: 8px;
+  }
+
+  .dropdown-content {
+    position: static;
+    margin-top: 5px;
+    margin-left: 10px;
+    box-shadow: none;
+    width: calc(100% - 10px);
+  }
+
+  .dropdown > a {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+  }
+
+  .dropdown.active .dropdown-content {
+    display: block;
+  }
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 90px 20px;
+}
+
+.hero img {
+  width: 180px;
+  filter:
+    drop-shadow(0 0 20px rgba(150,175,255,0.5))
+    drop-shadow(0 0 45px rgba(120,130,220,0.25));
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.hero h2 {
+  font-size: 42px;
+  margin-top: 10px;
+  background: linear-gradient(90deg,#ffffff,#969da9,#ffffff);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 4s linear infinite;
+}
+
+.hero p {
+  color: #a7abb3;
+  margin-top: 8px;
+}
+
+/* SECTIONS */
+.section {
+  padding: 50px 20px;
+  max-width: 1100px;
+  margin: auto;
+  text-align: center;
+}
+
+.section h2 {
+  margin-bottom: 25px;
+  background: linear-gradient(90deg,#ffffff,#969da9,#ffffff);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 4s linear infinite;
+}
+
+/* TEAM CARDS */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap: 20px;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg,
+    rgba(100,120,180,0.13),
+    rgba(3,5,15,0.92));
+  border: 1px solid rgba(210,215,225,0.3);
+  padding: 30px 20px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(120deg,
+    transparent,
+    rgba(255,255,255,0.2),
+    transparent);
+  transform: skewX(-20deg);
+  animation: shimmer 3.5s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -120%; }
+  100% { left: 120%; }
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 0 30px rgba(150,175,255,0.2);
+}
+
+.card h3 {
+  font-size: 23px;
+  letter-spacing: 2px;
+  color: #f0f1f4;
+  position: relative;
+}
+
+.card p {
+  margin-top: 10px;
+  color: #a7abb3;
+  position: relative;
+}
+
+/* JOIN BUTTON */
+.join-btn {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 14px 30px;
+  border-radius: 12px;
+  color: white;
+  border: 2px solid #c5cad2;
+  text-decoration: none;
+  font-weight: bold;
+  background: rgba(5,7,17,0.5);
+  box-shadow: 0 0 10px rgba(150,175,255,0.2);
+  transition: 0.3s;
+}
+
+.join-btn:hover {
+  background: #e1e4e9;
+  color: black;
+  box-shadow: 0 0 25px #bfc5d0;
+  transform: scale(1.05);
+}
+
+/* MODALS */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: rgba(7,9,20,0.98);
+  border: 1px solid rgba(210,215,225,0.35);
+  padding: 25px;
+  border-radius: 14px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(120,140,220,0.2);
+}
+
+.modal-content h3 {
+  color: #e5e8ed;
+  margin-bottom: 10px;
+}
+
+.modal-content p {
+  color: #a7abb3;
+}
+
+.close-btn {
+  margin-top: 15px;
+  display: inline-block;
+  padding: 8px 14px;
+  border: 1px solid #d5d9e0;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background: white;
+  color: black;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 30px 15px;
+  color: #777e89;
+  border-top: 1px solid rgba(210,215,225,0.15);
+  margin-top: 50px;
+}
+
+/* MOBILE HERO */
+@media(max-width:600px) {
+  .hero {
+    padding: 70px 15px;
+  }
+
+  .hero img {
+    width: 150px;
+  }
+
+  .hero h2 {
+    font-size: 32px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <h2>LUNAR ESPORTS</h2>
+
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+  <div class="nav-links" id="navMenu">
+
+    <a href="index.html">Home</a>
+
+    <!-- HORIZON DROPDOWN -->
+    <div class="dropdown">
+      <a href="#" onclick="toggleDropdown(event, this)">
+        Horizon ▾
+      </a>
+      <div class="dropdown-content">
+        <a href="horizon-roster.html">Horizon Roster</a>
+        <a href="horizon-schedule.html">Horizon Schedule</a>
+      </div>
+    </div>
+
+    <!-- REQUIEM DROPDOWN -->
+    <div class="dropdown">
+      <a href="#" onclick="toggleDropdown(event, this)">
+        Requiem ▾
+      </a>
+      <div class="dropdown-content">
+        <a href="requiem-roster.html">Requiem Roster</a>
+        <a href="requiem-schedule.html">Requiem Schedule</a>
+      </div>
+    </div>
+
+    <!-- DENIAL DROPDOWN -->
+    <div class="dropdown">
+      <a href="#" onclick="toggleDropdown(event, this)">
+        Denial ▾
+      </a>
+      <div class="dropdown-content">
+        <a href="denial-roster.html">Denial Roster</a>
+        <a href="denial-schedule.html">Denial Schedule</a>
+      </div>
+    </div>
+
+    <a href="socials.html">Socials</a>
+    <a href="about.html">About</a>
+
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <img src="orglogo.png" alt="Lunar Esports Logo">
+  <h2>LUNAR ESPORTS</h2>
+  <p>Beyond the competition. Above the rest.</p>
+</div>
+
+<!-- TEAMS -->
+<div class="section">
+  <h2>OUR TEAMS</h2>
+
+  <div class="cards">
+
+    <div class="card" onclick="openModal('horizon')">
+      <h3>LUNAR HORIZON</h3>
+      <p>Reach beyond the limits.</p>
+    </div>
+
+    <div class="card" onclick="openModal('requiem')">
+      <h3>LUNAR REQUIEM</h3>
+      <p>Leave your legacy.</p>
+    </div>
+
+    <div class="card" onclick="openModal('denial')">
+      <h3>LUNAR DENIAL</h3>
+      <p>Built to overcome.</p>
+    </div>
+
+  </div>
+
+  <a class="join-btn"
+     href="https://discord.gg/3dCePPqmWt"
+     target="_blank"
+     rel="noopener noreferrer">
+    JOIN OUR DISCORD
+  </a>
+</div>
+
+<!-- TEAM MODALS -->
+<div class="modal" id="horizon">
+  <div class="modal-content">
+    <h3>LUNAR HORIZON</h3>
+    <p>Meet the roster, follow upcoming matches, and discover the competitive journey of Lunar Horizon.</p>
+    <div class="close-btn" onclick="closeModal()">Close</div>
+  </div>
+</div>
+
+<div class="modal" id="requiem">
+  <div class="modal-content">
+    <h3>LUNAR REQUIEM</h3>
+    <p>Meet the roster, follow upcoming matches, and discover the competitive journey of Lunar Requiem.</p>
+    <div class="close-btn" onclick="closeModal()">Close</div>
+  </div>
+</div>
+
+<div class="modal" id="denial">
+  <div class="modal-content">
+    <h3>LUNAR DENIAL</h3>
+    <p>Meet the roster, follow upcoming matches, and discover the competitive journey of Lunar Denial.</p>
+    <div class="close-btn" onclick="closeModal()">Close</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  © 2026 LUNAR ESPORTS. ALL RIGHTS RESERVED.
+</footer>
+
+<script>
+
+/* STAR BACKGROUND */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+let stars = [];
+
+function resizeCanvas() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  canvas.width = window.innerWidth * dpr;
+  canvas.height = window.innerHeight * dpr;
+
+  canvas.style.width = window.innerWidth + "px";
+  canvas.style.height = window.innerHeight + "px";
+
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  stars = [];
+
+  for (let i = 0; i < 220; i++) {
+    stars.push({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      size: Math.random() * 1.8 + 0.3,
+      opacity: Math.random(),
+      speed: Math.random() * 0.008 + 0.002
+    });
+  }
+}
+
+function animateStars() {
+  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+  stars.forEach(star => {
+    star.opacity += star.speed;
+
+    if (star.opacity >= 1 || star.opacity <= 0.2) {
+      star.speed *= -1;
+    }
+
+    ctx.beginPath();
+    ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+
+    ctx.fillStyle = `rgba(220,230,255,${star.opacity})`;
+
+    ctx.shadowBlur = star.size * 5;
+    ctx.shadowColor = "#aabfff";
+
+    ctx.fill();
+  });
+
+  ctx.shadowBlur = 0;
+
+  requestAnimationFrame(animateStars);
+}
+
+window.addEventListener("resize", resizeCanvas);
+
+resizeCanvas();
+animateStars();
+
+
+/* MOBILE MENU */
+function toggleMenu() {
+  document.getElementById("navMenu").classList.toggle("active");
+}
+
+
+/* DROPDOWN MENU */
+function toggleDropdown(event, element) {
+  event.preventDefault();
+
+  const dropdown = element.parentElement;
+
+  document.querySelectorAll(".dropdown").forEach(item => {
+    if (item !== dropdown) {
+      item.classList.remove("active");
+    }
+  });
+
+  dropdown.classList.toggle("active");
+}
+
+
+/* TEAM MODALS */
+function openModal(id) {
+  document.getElementById(id).style.display = "flex";
+}
+
+function closeModal() {
+  document.querySelectorAll(".modal").forEach(m => {
+    m.style.display = "none";
+  });
+}
+
+
+/* CLOSE MODAL WHEN CLICKING OUTSIDE */
+document.querySelectorAll(".modal").forEach(modal => {
+  modal.addEventListener("click", function(event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+});
+
+</script>
+
+</body>
+</html>
