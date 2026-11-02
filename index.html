@@ -60,12 +60,10 @@ body::before {
   font-weight: 900;
   letter-spacing: 4px;
   text-transform: uppercase;
-
   background: linear-gradient(90deg,#ffffff,#9299a5,#ffffff);
   background-size: 300% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-
   animation: shine 4s linear infinite;
 }
 
@@ -84,6 +82,7 @@ body::before {
 
 .nav-links {
   display: flex;
+  align-items: center;
   gap: 18px;
 }
 
@@ -98,9 +97,54 @@ body::before {
   text-shadow: 0 0 10px #ffffff;
 }
 
+/* DROPDOWN MENUS */
+.dropdown {
+  position: relative;
+}
+
+.dropdown > a {
+  display: block;
+  padding: 5px 0;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 180px;
+  background: rgba(10,10,12,0.98);
+  border: 1px solid rgba(210,215,225,0.3);
+  border-radius: 10px;
+  padding: 8px;
+  z-index: 1001;
+  box-shadow: 0 0 20px rgba(220,225,235,0.15);
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 11px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.dropdown-content a:hover {
+  background: rgba(210,215,225,0.12);
+}
+
+/* DESKTOP HOVER */
+@media (min-width: 769px) {
+  .dropdown:hover .dropdown-content,
+  .dropdown:focus-within .dropdown-content {
+    display: block;
+  }
+}
+
 /* MOBILE MENU */
 @media(max-width:768px) {
-  .menu-toggle { display:block; }
+  .menu-toggle {
+    display: block;
+  }
 
   .nav-links {
     display: none;
@@ -108,15 +152,41 @@ body::before {
     top: 70px;
     right: 10px;
     flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
     width: 220px;
+    max-height: 80vh;
+    overflow-y: auto;
     background: rgba(10,10,12,0.97);
     border: 1px solid rgba(210,215,225,0.3);
     border-radius: 12px;
-    padding: 10px;
+    padding: 12px;
   }
 
   .nav-links.active {
     display: flex;
+  }
+
+  .nav-links > a {
+    padding: 8px;
+  }
+
+  .dropdown-content {
+    position: static;
+    margin-top: 5px;
+    margin-left: 10px;
+    box-shadow: none;
+    width: calc(100% - 10px);
+  }
+
+  .dropdown > a {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+  }
+
+  .dropdown.active .dropdown-content {
+    display: block;
   }
 }
 
@@ -140,12 +210,10 @@ body::before {
 .hero h2 {
   font-size: 42px;
   margin-top: 10px;
-
   background: linear-gradient(90deg,#ffffff,#969da9,#ffffff);
   background-size: 300% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-
   animation: shine 4s linear infinite;
 }
 
@@ -307,27 +375,63 @@ footer {
 
 <canvas id="particles"></canvas>
 
+<!-- NAVBAR -->
 <div class="navbar">
   <h2>LUNAR ESPORTS</h2>
 
   <div class="menu-toggle" onclick="toggleMenu()">☰</div>
 
   <div class="nav-links" id="navMenu">
+
     <a href="index.html">Home</a>
-    <a href="horizon.html">Horizon</a>
-    <a href="requiem.html">Requiem</a>
-    <a href="denial.html">Denial</a>
+
+    <!-- HORIZON DROPDOWN -->
+    <div class="dropdown">
+      <a href="#" onclick="toggleDropdown(event, this)">
+        Horizon ▾
+      </a>
+      <div class="dropdown-content">
+        <a href="horizon-roster.html">Horizon Roster</a>
+        <a href="horizon-schedule.html">Horizon Schedule</a>
+      </div>
+    </div>
+
+    <!-- REQUIEM DROPDOWN -->
+    <div class="dropdown">
+      <a href="#" onclick="toggleDropdown(event, this)">
+        Requiem ▾
+      </a>
+      <div class="dropdown-content">
+        <a href="requiem-roster.html">Requiem Roster</a>
+        <a href="requiem-schedule.html">Requiem Schedule</a>
+      </div>
+    </div>
+
+    <!-- DENIAL DROPDOWN -->
+    <div class="dropdown">
+      <a href="#" onclick="toggleDropdown(event, this)">
+        Denial ▾
+      </a>
+      <div class="dropdown-content">
+        <a href="denial-roster.html">Denial Roster</a>
+        <a href="denial-schedule.html">Denial Schedule</a>
+      </div>
+    </div>
+
     <a href="socials.html">Socials</a>
     <a href="about.html">About</a>
+
   </div>
 </div>
 
+<!-- HERO -->
 <div class="hero">
   <img src="orglogo.png" alt="Lunar Esports Logo">
   <h2>LUNAR ESPORTS</h2>
   <p>Beyond the competition. Above the rest.</p>
 </div>
 
+<!-- TEAMS -->
 <div class="section">
   <h2>OUR TEAMS</h2>
 
@@ -350,13 +454,12 @@ footer {
 
   </div>
 
-  <a class="join-btn" href="https://discord.gg/GtKHY3dr3" target="_blank">
+  <a class="join-btn" href="https://discord.gg/GtKHY3dr3" target="_blank" rel="noopener noreferrer">
     JOIN OUR DISCORD
   </a>
 </div>
 
 <!-- TEAM MODALS -->
-
 <div class="modal" id="horizon">
   <div class="modal-content">
     <h3>LUNAR HORIZON</h3>
@@ -381,15 +484,33 @@ footer {
   </div>
 </div>
 
+<!-- FOOTER -->
 <footer>
   © 2026 LUNAR ESPORTS. ALL RIGHTS RESERVED.
 </footer>
 
 <script>
+/* MOBILE MENU */
 function toggleMenu() {
   document.getElementById("navMenu").classList.toggle("active");
 }
 
+/* DROPDOWN MENU */
+function toggleDropdown(event, element) {
+  event.preventDefault();
+
+  const dropdown = element.parentElement;
+
+  document.querySelectorAll(".dropdown").forEach(item => {
+    if (item !== dropdown) {
+      item.classList.remove("active");
+    }
+  });
+
+  dropdown.classList.toggle("active");
+}
+
+/* TEAM MODALS */
 function openModal(id) {
   document.getElementById(id).style.display = "flex";
 }
@@ -399,8 +520,16 @@ function closeModal() {
     m.style.display = "none";
   });
 }
+
+/* CLOSE MODAL WHEN CLICKING OUTSIDE */
+document.querySelectorAll(".modal").forEach(modal => {
+  modal.addEventListener("click", function(event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+});
 </script>
 
 </body>
 </html>
-      
